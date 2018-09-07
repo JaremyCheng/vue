@@ -275,7 +275,7 @@ function initMethods (vm: Component, methods: Object) {
     vm[key] = methods[key] == null ? noop : bind(methods[key], vm)
   }
 }
-
+// 创建watch
 function initWatch (vm: Component, watch: Object) {
   for (const key in watch) {
     const handler = watch[key]
@@ -309,11 +309,14 @@ export function stateMixin (Vue: Class<Component>) {
   // flow somehow has problems with directly declared definition object
   // when using Object.defineProperty, so we have to procedurally build up
   // the object here.
+  
+  // 将this.$data,this.$props指向this._data,this._props
   const dataDef = {}
   dataDef.get = function () { return this._data }
   const propsDef = {}
   propsDef.get = function () { return this._props }
   if (process.env.NODE_ENV !== 'production') {
+    // 生产环境下, 禁止修改$data及$props内容
     dataDef.set = function (newData: Object) {
       warn(
         'Avoid replacing instance root $data. ' +
@@ -330,7 +333,7 @@ export function stateMixin (Vue: Class<Component>) {
 
   Vue.prototype.$set = set
   Vue.prototype.$delete = del
-
+  // toFix 创建监听函数
   Vue.prototype.$watch = function (
     expOrFn: string | Function,
     cb: any,

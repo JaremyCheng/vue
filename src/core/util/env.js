@@ -69,11 +69,14 @@ export const nextTick = (function () {
   const callbacks = []
   let pending = false
   let timerFunc
-
+  // 处理callback函数
   function nextTickHandler () {
     pending = false
+    // 复制队列中的函数
     const copies = callbacks.slice(0)
+    // 清空队列
     callbacks.length = 0
+    // 执行函数
     for (let i = 0; i < copies.length; i++) {
       copies[i]()
     }
@@ -87,6 +90,12 @@ export const nextTick = (function () {
   // the ideal choice, but it's not available everywhere; and the only polyfill
   // that consistently queues the callback after all DOM events triggered in the
   // same loop is by using MessageChannel.
+  // 异步延迟机制
+  // 在版本2.4之前，我们曾经使用微任务（Promise / MutationObserver）,
+  // 但微任务实际上具有太高的优先级，
+  // 并且在所谓的顺序事件（例如＃4521，＃6690）之间或甚至在同一事件的冒泡之间触发（＃6566））。
+  // 技术上setImmediate应该是理想的选择，但它并不是通用的; 
+  // 并且在同一循环中触发的所有DOM事件之后始终对回调进行排队的唯一polyfill是使用MessageChannel。
   /* istanbul ignore if */
   if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
     timerFunc = () => {

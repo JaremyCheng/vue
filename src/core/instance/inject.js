@@ -4,6 +4,7 @@ import { warn } from '../util/index'
 import { hasSymbol } from 'core/util/env'
 import { defineReactive, observerState } from '../observer/index'
 
+// 初始化provide 只是初始化vm._provided信息 7.30
 export function initProvide (vm: Component) {
   const provide = vm.$options.provide
   if (provide) {

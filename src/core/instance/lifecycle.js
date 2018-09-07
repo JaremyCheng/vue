@@ -54,7 +54,10 @@ export function lifecycleMixin (Vue: Class<Component>) {
     }
     const prevEl = vm.$el
     const prevVnode = vm._vnode
+    // 记录之前激活过的实例
     const prevActiveInstance = activeInstance
+    // 将这次激活的实例记录下来
+    // activeInstance属于文件内的局部变量
     activeInstance = vm
     vm._vnode = vnode
     // Vue.prototype.__patch__ is injected in entry points

@@ -70,6 +70,7 @@ export function isUnknownElement (tag: string): boolean {
       el.constructor === window.HTMLElement
     ))
   } else {
+    // 非浏览器自带标签, toString返回[object HTMLUnknownElement]
     return (unknownElementCache[tag] = /HTMLUnknownElement/.test(el.toString()))
   }
 }

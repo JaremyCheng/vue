@@ -44,8 +44,10 @@ export function updateComponentListeners (
 
 export function eventsMixin (Vue: Class<Component>) {
   const hookRE = /^hook:/
+  // 事件绑定
   Vue.prototype.$on = function (event: string | Array<string>, fn: Function): Component {
     const vm: Component = this
+    // 事件数组就进行递归回调
     if (Array.isArray(event)) {
       for (let i = 0, l = event.length; i < l; i++) {
         this.$on(event[i], fn)

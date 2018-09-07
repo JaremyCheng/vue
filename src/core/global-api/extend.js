@@ -35,7 +35,7 @@ export function initExtend (Vue: GlobalAPI) {
         )
       }
     }
-
+    // ↓生成一个Sub类, 继承Vue的prototype及globalAPI, 部分属性回指
     const Sub = function VueComponent (options) {
       this._init(options)
     }

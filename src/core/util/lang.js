@@ -25,7 +25,7 @@ export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
 /**
  * Parse simple path.
  */
-const bailRE = /[^\w.$]/
+const bailRE = /[^\w.$]/ // 匹配字符串内是否有特殊字符or空格
 export function parsePath (path: string): any {
   if (bailRE.test(path)) {
     return

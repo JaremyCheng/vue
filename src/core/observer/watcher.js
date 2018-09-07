@@ -7,7 +7,7 @@ import {
   warn,
   remove,
   isObject,
-  parsePath,
+  parsePath, // core/util/lang
   _Set as Set,
   handleError
 } from '../util/index'
@@ -45,13 +45,19 @@ export default class Watcher {
     cb: Function,
     options?: Object
   ) {
+    // 记录来自哪个VM实例
     this.vm = vm
+    // 将watch本身记录到VM实例的_watchers上, 数组星蚀
     vm._watchers.push(this)
     // options
     if (options) {
+      // 深度?
       this.deep = !!options.deep
+      // 用户?
       this.user = !!options.user
+      // 延迟
       this.lazy = !!options.lazy
+      // 异步
       this.sync = !!options.sync
     } else {
       this.deep = this.user = this.lazy = this.sync = false
@@ -71,8 +77,9 @@ export default class Watcher {
     if (typeof expOrFn === 'function') {
       this.getter = expOrFn
     } else {
-      this.getter = parsePath(expOrFn)
+      this.getter = parsePath(expOrFn) // 当传入参数为methodName字符串时,返回一个能寻找到该方法的函数
       if (!this.getter) {
+        // expOrFn格式不对时,将getter设置为空函数
         this.getter = function () {}
         process.env.NODE_ENV !== 'production' && warn(
           `Failed watching path: "${expOrFn}" ` +
@@ -82,6 +89,7 @@ export default class Watcher {
         )
       }
     }
+    // 当this.lazy = true 时, 一开始不会初始化数值
     this.value = this.lazy
       ? undefined
       : this.get()
