@@ -28,6 +28,7 @@ export function initGlobalAPI (Vue: GlobalAPI) {
       )
     }
   }
+  // Vue.config设置, 只能获取不能修改
   Object.defineProperty(Vue, 'config', configDef)
 
   // exposed util methods.

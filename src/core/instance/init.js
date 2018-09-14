@@ -18,7 +18,7 @@ export function initMixin (Vue: Class<Component>) {
     const vm: Component = this
     // a uid
     vm._uid = uid++
-
+    // 性能监控, 以下mark开始, 在mark结束的时候, 会输出按Q`从开始到结束的性能指数
     let startTag, endTag
     /* istanbul ignore if */
     if (process.env.NODE_ENV !== 'production' && config.performance && mark) {
@@ -41,6 +41,7 @@ export function initMixin (Vue: Class<Component>) {
       // _isComponent = true等处理
       initInternalComponent(vm, options)
     } else {
+      // 合并Options
       vm.$options = mergeOptions(
         resolveConstructorOptions(vm.constructor),
         options || {},
